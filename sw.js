@@ -1,7 +1,8 @@
-const CACHE = 'hockey-showdown-v7';
+const CACHE = 'hockey-showdown-v8';
 const APP = './Hockey%20Showdown%20-%20Nov%207.html';
 const CORE = [
   APP,
+  './index.html',
   './manifest.webmanifest',
   './icons/icon-192.png',
   './icons/icon-512.png',
