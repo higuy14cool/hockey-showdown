@@ -210,7 +210,11 @@ const teams=[
  {name:'Ice Wolves',color:'#2679bd',dark:'#123b70',mark:'🐺'},
  {name:'Frostbite',color:'#76d9ef',dark:'#187f9e',mark:'❄️'},
  {name:'Detroit Icehawks',color:'#d6424b',dark:'#781e2b',mark:'🦅'},
- {name:'Arctic Predators',color:'#8a65bd',dark:'#39245f',mark:'🐾'}
+ {name:'Arctic Predators',color:'#8a65bd',dark:'#39245f',mark:'🐾'},
+ {name:'Glacier Kings',color:'#2fb8a3',dark:'#12655b',mark:'🏔️'},
+ {name:'Steel Bears',color:'#8d99a6',dark:'#39424d',mark:'🐻'},
+ {name:'Neon Comets',color:'#e8578f',dark:'#8a1f4b',mark:'☄️'},
+ {name:'Thunder Bay Titans',color:'#f2b134',dark:'#8c5a06',mark:'⚡'}
 ];
 let home=0,away=1,mode='home',running=false,paused=false,ended=false,seconds=180,last=0,score=[0,0],players=[],puck={x:550,y:310,vx:0,vy:0,owner:null},keys={},held={},active=0,raf=0,blockingUntil=0,stealUntil=0,aiActionTimer=0,lastEnemyOwner=-1,goalSequence=null,replayFrames=[],replayCapture=0,replayBanner=null,skipReplayButton=null,editorSettings={playerScale:1,puckScale:4,cameraZoom:1,controlSpeed:1};
 const $=id=>document.getElementById(id), screens=['home','setup','game'];
@@ -218,7 +222,7 @@ function show(s){screens.forEach(x=>$(x).hidden=x!==s);mode=s;$('app').classList
 function renderTeams(){
  $('homeTeams').innerHTML='';$('awayTeams').innerHTML='';
  teams.forEach((t,i)=>{
-  const a=document.createElement('button');a.className='team-card'+(home===i?' selected':'');a.innerHTML=`<div class="swatch" style="background:${t.color}"></div><div class="team-body"><div class="team-emblem">${t.mark}</div><div class="team-name">${t.name}</div><div class="team-sub">SELECT YOUR TEAM</div></div>`;a.onclick=()=>{home=i;if(away===home)away=(home+1)%4;renderTeams()};$('homeTeams').append(a);
+  const a=document.createElement('button');a.className='team-card'+(home===i?' selected':'');a.innerHTML=`<div class="swatch" style="background:${t.color}"></div><div class="team-body"><div class="team-emblem">${t.mark}</div><div class="team-name">${t.name}</div><div class="team-sub">SELECT YOUR TEAM</div></div>`;a.onclick=()=>{home=i;if(away===home)away=(home+1)%teams.length;renderTeams()};$('homeTeams').append(a);
   const b=document.createElement('button');b.className='team-card'+(away===i?' selected':'');b.innerHTML=`<div class="swatch" style="background:${t.color}"></div><div class="team-body"><div class="team-emblem">${t.mark}</div><div class="team-name">${t.name}</div><div class="team-sub">SELECT OPPONENT</div></div>`;b.disabled=i===home;b.style.opacity=i===home?'.4':'1';b.onclick=()=>{away=i;renderTeams()};$('awayTeams').append(b);
  });$('homeName').textContent=teams[home].name;$('awayName').textContent=teams[away].name;
 }
