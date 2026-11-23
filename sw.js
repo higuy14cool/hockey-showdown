@@ -1,4 +1,4 @@
-const CACHE = 'hockey-showdown-v11';
+const CACHE = 'hockey-showdown-v12';
 const APP = './Hockey%20Showdown%20-%20Nov%207.html';
 const CORE = [
   APP,
@@ -30,6 +30,20 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const req = event.request;
   if (req.method !== 'GET') return;
+
+  // Navigations go to the network first so a new deploy is never hidden by an old cache.
+  if (req.mode === 'navigate') {
+    event.respondWith(
+      fetch(req).then((res) => {
+        if (res && res.ok) {
+          const copy = res.clone();
+          caches.open(CACHE).then((cache) => cache.put(req, copy)).catch(() => {});
+        }
+        return res;
+      }).catch(() => caches.match(req).then((hit) => hit || caches.match(APP)))
+    );
+    return;
+  }
 
   event.respondWith(
     caches.match(req).then((hit) => {
