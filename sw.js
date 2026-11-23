@@ -1,4 +1,4 @@
-const CACHE = 'hockey-showdown-v10';
+const CACHE = 'hockey-showdown-v11';
 const APP = './Hockey%20Showdown%20-%20Nov%207.html';
 const CORE = [
   APP,

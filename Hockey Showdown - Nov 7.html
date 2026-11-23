@@ -325,6 +325,17 @@ create3DWorld();const matchShell=$('game').querySelector('.rink-shell');replayBa
         root.querySelectorAll('#overlay').forEach(n=>{n.hidden=true});
         html='<!DOCTYPE html>\n'+root.outerHTML;
       }
+      // Inline the 3D engine so the saved file also plays with no internet
+      const THREE_URL='https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js';
+      try{
+        const CL='<'+'/script>',tag='<script src="'+THREE_URL+'">'+CL;
+        if(html.indexOf(tag)>-1){
+          const tr=await fetch(THREE_URL);if(tr.ok){
+            const lib=await tr.text();
+            if(lib.indexOf('<'+'/script')<0)html=html.replace(tag,'<script>'+lib+CL);
+          }
+        }
+      }catch(_){}
       // Fold the 512px icon in so the saved file still shows art offline
       try{
         const ic=await fetch('./icons/icon-512.png');if(ic.ok){
